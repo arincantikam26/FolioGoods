@@ -1,0 +1,25 @@
+FolioGoods — UI Edition
+Lisensi penggunaan template
+
+1. Satu pembelian memberikan izin memakai template untuk satu (1) proyek,
+   baik proyek pribadi maupun komersial, termasuk situs untuk satu klien.
+
+2. Source code boleh dimodifikasi sesuai kebutuhan proyek tersebut.
+
+3. Tidak diizinkan:
+   - menjual ulang, membagikan, atau mengunggah template atau source code,
+     baik utuh maupun dimodifikasi, ke publik atau marketplace;
+   - menerbitkan template ini, atau turunannya, sebagai produk template,
+     theme, UI kit, atau starter kit;
+   - memakai satu pembelian untuk lebih dari satu proyek.
+
+4. Gambar contoh di public/folio/media hanya untuk demonstrasi. Ganti dengan
+   gambar Anda sendiri sebelum situs dipublikasikan.
+
+5. Komponen pihak ketiga mengikuti lisensinya masing-masing, antara lain:
+   Laravel dan Laravel React starter kit (MIT), React (MIT), Inertia (MIT),
+   Radix UI (MIT), Tailwind CSS (MIT), Lucide (ISC), serta font Newsreader
+   dan Hanken Grotesk (SIL Open Font License 1.1).
+
+6. Template diberikan "sebagaimana adanya", tanpa jaminan apa pun. Penjual
+   tidak bertanggung jawab atas kerugian yang timbul dari pemakaiannya.

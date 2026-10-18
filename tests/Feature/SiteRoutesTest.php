@@ -36,8 +36,7 @@ class SiteRoutesTest extends TestCase
     {
         $this->get($uri)
             ->assertOk()
-            ->assertSee('resources/js/site.tsx', false)
-            ->assertDontSee('resources/js/app.tsx', false)
+            ->assertViewIs('site')
             ->assertInertia(fn (Assert $page) => $page
                 ->component($component)
                 ->has('folio', fn (Assert $folio) => $folio
@@ -74,7 +73,7 @@ class SiteRoutesTest extends TestCase
     {
         $this->get('/this-page-does-not-exist')
             ->assertNotFound()
-            ->assertSee('resources/js/site.tsx', false)
+            ->assertViewIs('site')
             ->assertInertia(fn (Assert $page) => $page
                 ->component('site/errors/show')
                 ->where('status', 404)
@@ -95,7 +94,6 @@ class SiteRoutesTest extends TestCase
     {
         $this->get('/login')
             ->assertOk()
-            ->assertSee('resources/js/app.tsx', false)
-            ->assertDontSee('resources/js/site.tsx', false);
+            ->assertViewIs('app');
     }
 }
