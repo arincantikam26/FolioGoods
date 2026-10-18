@@ -1,7 +1,7 @@
-import { Download } from 'lucide-react';
 import { routes } from '@/app/routing/routes';
 import { Media } from '@/components/media/media';
 import { Breadcrumbs } from '@/components/navigation/breadcrumbs';
+import { DownloadLink } from '@/components/primitives/download-link';
 import { ButtonLink } from '@/components/primitives/button';
 import { Paragraphs } from '@/components/typography/paragraphs';
 import { SectionLabel } from '@/components/typography/section-label';
@@ -210,21 +210,11 @@ export function AboutAvailability({
                 </div>
                 <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
                     {profile.cv && (
-                        <a
+                        <DownloadLink
                             href={profile.cv.href}
-                            download
-                            className="link-underline inline-flex min-h-11 items-center gap-2 text-sm font-medium"
-                        >
-                            <Download
-                                aria-hidden
-                                className="size-4"
-                                strokeWidth={1.6}
-                            />
-                            {profile.cv.label}
-                            <span className="font-normal text-muted">
-                                ({profile.cv.size})
-                            </span>
-                        </a>
+                            label={profile.cv.label}
+                            detail={profile.cv.size}
+                        />
                     )}
                     <ButtonLink href={routes.contact()} arrow>
                         {copy.closing.cta}

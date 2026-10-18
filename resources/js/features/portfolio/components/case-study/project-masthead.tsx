@@ -33,7 +33,7 @@ export function ProjectMasthead({
                             year={project.year}
                             context={project.context}
                         />
-                        <h1 className="type-display max-w-[14ch]">
+                        <h1 className="type-headline max-w-[16ch]">
                             {project.title}
                         </h1>
                     </div>

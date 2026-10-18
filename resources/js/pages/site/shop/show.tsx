@@ -14,12 +14,14 @@ import { ProductShelf } from '@/features/products/components/product-shelf';
 import {
     AudienceFit,
     Changelog,
+    DeliverySteps,
     FeatureWalkthrough,
     LicenseSummary,
     PackageContents,
     ProductFaq,
     ProductOverview,
     ProductSection,
+    PurchaseClosing,
     RequirementsTable,
     SourceTree,
     SupportScopeList,
@@ -88,7 +90,7 @@ export default function ShopShowPage({ slug }: { slug: string }) {
                             </p>
                             <h1
                                 itemProp="name"
-                                className="type-display max-w-[14ch]"
+                                className="type-headline max-w-[16ch]"
                             >
                                 {product.name}
                             </h1>
@@ -183,6 +185,9 @@ export default function ShopShowPage({ slug }: { slug: string }) {
                         <ProductSection id="source" title={sections.source}>
                             <SourceTree nodes={product.sourceTree} />
                         </ProductSection>
+                        <ProductSection id="delivery" title={sections.delivery}>
+                            <DeliverySteps />
+                        </ProductSection>
                         <ProductSection id="license" title={sections.license}>
                             <LicenseSummary licenses={licenses} />
                         </ProductSection>
@@ -199,6 +204,19 @@ export default function ShopShowPage({ slug }: { slug: string }) {
                             <ProductSection id="faq" title={sections.faq}>
                                 <ProductFaq items={product.faqs} />
                             </ProductSection>
+                        )}
+                        {product.availability === 'available' && selected && (
+                            <PurchaseClosing
+                                name={product.name}
+                                price={selected.price}
+                                licenseName={selected.name}
+                                href={routes.checkout({
+                                    product: product.slug,
+                                    license: selected.id,
+                                })}
+                                label={copy.product.primaryCta(noun)}
+                                previewHref={product.links.preview}
+                            />
                         )}
                     </div>
                 </div>

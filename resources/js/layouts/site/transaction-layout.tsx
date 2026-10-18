@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { AppLink } from '@/app/routing/app-link';
 import { routes } from '@/app/routing/routes';
+import { SectionErrorBoundary } from '@/components/feedback/error-boundary';
 import { BrandMark } from '@/components/layout/brand-mark';
 import { RouteProgress, SkipLink } from '@/components/layout/route-progress';
 import { copy } from '@/content/copy';
@@ -92,7 +93,7 @@ export function TransactionLayout({ children, step }: TransactionLayoutProps) {
                 tabIndex={-1}
                 className="motion-page-enter flex-1 outline-none"
             >
-                {children}
+                <SectionErrorBoundary>{children}</SectionErrorBoundary>
             </main>
 
             <footer data-site-footer className="border-line border-t">

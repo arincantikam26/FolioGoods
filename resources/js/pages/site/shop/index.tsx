@@ -161,13 +161,11 @@ export default function ShopIndexPage({
                 </div>
                 <Accordion
                     className="lg:col-span-7 lg:col-start-6"
-                    items={productSource
-                        .faqs()
-                        .map((faq) => ({
-                            id: faq.id,
-                            title: faq.question,
-                            content: <p>{faq.answer}</p>,
-                        }))}
+                    items={productSource.faqs().map((faq) => ({
+                        id: faq.id,
+                        title: faq.question,
+                        content: <p>{faq.answer}</p>,
+                    }))}
                 />
             </section>
         </PublicLayout>

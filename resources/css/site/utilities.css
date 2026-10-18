@@ -116,6 +116,23 @@
         opacity: 0;
     }
 
+    /* Loading: a slow, soft sweep that starts only if the image is not
+       there after 300ms, so fast loads never flash. */
+    .media-frame[data-loaded='false']::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            100deg,
+            transparent 30%,
+            var(--color-media-sheen) 50%,
+            transparent 70%
+        );
+        transform: translateX(-100%);
+        animation: folio-media-sheen 1.8s var(--ease-standard) 300ms infinite;
+        pointer-events: none;
+    }
+
     /* Hover perspective for media on devices with a fine pointer. */
     @media (hover: hover) and (pointer: fine) {
         .media-tilt {
@@ -259,5 +276,16 @@
         & > :nth-child(3n) {
             padding-right: 0;
         }
+    }
+}
+
+/* Floating scroll-to-top: clears the safe area, and the mobile purchase bar when it shows. */
+.scroll-top {
+    bottom: max(1rem, calc(env(safe-area-inset-bottom) + 0.75rem));
+}
+
+@media (max-width: 63.99rem) {
+    [data-bottom-bar='on'] .scroll-top {
+        bottom: calc(env(safe-area-inset-bottom) + 5rem);
     }
 }

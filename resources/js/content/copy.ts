@@ -16,6 +16,7 @@ export const copy = {
         breadcrumb: 'Breadcrumb',
         home: 'Home',
         backToTop: 'Back to top',
+        scrollToTop: 'Scroll back to the top of the page',
         previewBadge: 'UI preview',
         opensInNewTab: '(opens in a new tab)',
         copy: 'Copy',
@@ -40,8 +41,8 @@ export const copy = {
             headline:
                 'Selected work, useful products, and *the thinking behind both.*',
             body: 'A flexible portfolio for presenting thoughtful work, sharing the process, and offering digital products in one place.',
-            primaryCta: 'Browse selected work',
-            secondaryCta: 'Explore the shop',
+            primaryCta: 'View selected work',
+            secondaryCta: 'Browse templates',
             /** Project whose cover anchors the hero. */
             projectSlug: 'tidewater',
             mediaLabel: 'Now showing',
@@ -55,7 +56,7 @@ export const copy = {
         work: {
             label: 'Selected work',
             heading: 'Projects with a reason behind every decision.',
-            cta: 'See the full index',
+            cta: 'View all projects',
             rowCta: 'Read the case study',
         },
         statement: {
@@ -91,7 +92,7 @@ export const copy = {
     closing: {
         label: 'Contact',
         heading: 'Have a project, product, or idea worth shaping?',
-        cta: 'Start a conversation',
+        cta: 'Discuss a project',
         emailLabel: 'Or write directly',
         socialLabel: 'Elsewhere',
     },
@@ -111,6 +112,7 @@ export const copy = {
                 ? `${total} projects`
                 : `Showing ${shown} of ${total} projects`,
         featured: 'Featured',
+        role: 'Role',
         indexHeading: 'Index',
         emptyTitle: 'No work matches these filters.',
         emptyBody: 'Try another category or clear the current selection.',
@@ -204,6 +206,26 @@ export const copy = {
             support: 'Support',
             faq: 'Questions',
             related: 'Related products',
+            delivery: 'How you get it',
+        },
+        delivery: [
+            {
+                title: 'Check out without an account',
+                detail: 'Enter a name and email, choose the license, and confirm the total.',
+            },
+            {
+                title: 'Transfer and upload the receipt',
+                detail: 'Pay the exact amount by bank transfer, then upload a screenshot or PDF of the receipt.',
+            },
+            {
+                title: 'Download after verification',
+                detail: 'Once the transfer is matched, the download link and invoice are sent to your email and shown on the order page.',
+            },
+        ],
+        closing: {
+            label: 'Purchase',
+            license: (name: string) => `${name} license`,
+            note: 'One-time payment. The price shown is the total — no fees are added at checkout.',
         },
         supportIncluded: 'Included',
         supportExcluded: 'Not included',
@@ -504,6 +526,10 @@ export const copy = {
         503: {
             title: 'Back shortly.',
             body: 'The site is being updated. Please try again in a few minutes.',
+        },
+        render: {
+            title: 'This part of the page could not be shown.',
+            body: 'Something went wrong while displaying it. Try again, or go back to the home page — nothing you entered elsewhere is lost.',
         },
         code: 'Error',
         home: 'Go to the home page',

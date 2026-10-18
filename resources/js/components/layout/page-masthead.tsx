@@ -26,7 +26,7 @@ export function PageMasthead({
                 <Breadcrumbs items={breadcrumbs} className="mb-10 lg:mb-14" />
             )}
             <div className="editorial-grid items-end gap-y-6">
-                <h1 className="type-display lg:col-span-7">{title}</h1>
+                <h1 className="type-headline lg:col-span-7">{title}</h1>
                 {(intro || aside) && (
                     <div className="grid gap-4 lg:col-span-4 lg:col-start-9">
                         {intro && (

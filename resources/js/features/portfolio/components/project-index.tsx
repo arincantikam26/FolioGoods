@@ -8,6 +8,8 @@ import type { Project } from '@/features/portfolio/types';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { indexLabel } from '@/lib/format';
 import { cn } from '@/lib/utils';
+import { projectRole } from '@/features/portfolio/utils/project-facts';
+import { copy } from '@/content/copy';
 
 type ProjectIndexProps = {
     projects: Project[];
@@ -20,6 +22,8 @@ type ProjectIndexProps = {
  * The active row follows scroll position, hover and keyboard focus.
  * On small screens each row shows its own image; nothing needs hover.
  */
+const roleLabel = copy.work.role;
+
 export function ProjectIndex({
     projects,
     categoryLabel,
@@ -109,6 +113,22 @@ export function ProjectIndex({
                                     <span className="max-w-[44ch] text-muted">
                                         {project.summary}
                                     </span>
+                                    {projectRole(project) && (
+                                        <span className="text-sm">
+                                            <span className="text-muted">
+                                                {roleLabel}:{' '}
+                                            </span>
+                                            {projectRole(project)}
+                                            {project.mediums.length > 0 && (
+                                                <span className="text-muted">
+                                                    {' · '}
+                                                    {project.mediums
+                                                        .slice(0, 3)
+                                                        .join(', ')}
+                                                </span>
+                                            )}
+                                        </span>
+                                    )}
                                     <span className="mt-1 inline-flex items-center gap-2 text-sm font-medium">
                                         <span className="link-underline">
                                             {rowCta}
