@@ -1,0 +1,27 @@
+/*
+ * Public site stylesheet (UI Edition).
+ * Separate from app.css so the admin theme never leaks into the site and
+ * visitors only download the CSS for the pages they see.
+ */
+@import 'tailwindcss' source(none);
+
+@source '../js/site.tsx';
+@source '../js/app';
+@source '../js/content';
+@source '../js/components/primitives';
+@source '../js/components/layout';
+@source '../js/components/navigation';
+@source '../js/components/typography';
+@source '../js/components/media';
+@source '../js/components/forms';
+@source '../js/components/feedback';
+@source '../js/components/motion';
+@source '../js/components/interaction';
+@source '../js/features';
+@source '../js/layouts/site';
+@source '../js/pages/site';
+
+@import './site/tokens.css';
+@import './site/typography.css';
+@import './site/motion.css';
+@import './site/utilities.css';

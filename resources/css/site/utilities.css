@@ -1,0 +1,263 @@
+/* Layout and editorial utilities shared across the public site. */
+
+@utility frame {
+    width: 100%;
+    max-width: calc(var(--container-page) + var(--gutter) * 2);
+    margin-inline: auto;
+    padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px))
+        max(var(--gutter), env(safe-area-inset-right, 0px));
+}
+
+/* Named-line grid: children sit in "content"; .bleed children run edge to edge. */
+@utility bleed-grid {
+    display: grid;
+    grid-template-columns:
+        [full-start] minmax(var(--gutter), 1fr)
+        [content-start] minmax(0, var(--container-page))
+        [content-end] minmax(var(--gutter), 1fr) [full-end];
+
+    & > * {
+        grid-column: content;
+    }
+
+    & > .bleed {
+        grid-column: full;
+    }
+}
+
+/* 12-column editorial grid from the lg breakpoint; single column below. */
+@utility editorial-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: var(--gutter);
+
+    @media (width >= 64rem) {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+}
+
+@utility section-space {
+    padding-block: var(--space-section);
+}
+
+@utility hairline {
+    border-top: var(--border-hairline) solid var(--color-line);
+}
+
+@utility tone-inverse {
+    --color-canvas: var(--color-inverse-canvas);
+    --color-ink: var(--color-inverse-ink);
+    --color-on-ink: var(--color-inverse-canvas);
+    --color-accent-secondary-ink: var(--color-accent-secondary);
+    --color-accent-ink: var(--color-inverse-focus);
+    --color-muted: var(--color-inverse-muted);
+    --color-line: var(--color-inverse-line);
+    --color-focus: var(--color-inverse-focus);
+    background-color: var(--color-inverse-canvas);
+    color: var(--color-inverse-ink);
+}
+
+@utility tone-mist {
+    background-color: var(--color-surface-muted);
+}
+
+@utility touch-target {
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+}
+
+@layer components {
+    /* Text link with a drawn underline that thickens on hover. */
+    .link-underline {
+        text-decoration-line: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.24em;
+        text-decoration-color: color-mix(
+            in srgb,
+            currentColor 45%,
+            transparent
+        );
+        transition:
+            text-decoration-color var(--duration-fast) var(--ease-standard),
+            text-decoration-thickness var(--duration-fast) var(--ease-standard);
+    }
+
+    .link-underline:hover {
+        text-decoration-color: currentColor;
+        text-decoration-thickness: 2px;
+    }
+
+    /* Arrow that nudges forward on hover/focus of its parent link. */
+    .link-arrow {
+        display: inline-block;
+        transition: transform var(--duration-normal) var(--ease-emphasized);
+    }
+
+    :is(a, button):is(:hover, :focus-visible) .link-arrow {
+        transform: translateX(0.25em);
+    }
+
+    /* Media frame: reserves space, shows a tone while loading. */
+    .media-frame {
+        position: relative;
+        overflow: hidden;
+        background-color: var(--media-tone, var(--color-media));
+        isolation: isolate;
+    }
+
+    .media-frame > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity var(--duration-slow) var(--ease-standard);
+    }
+
+    .media-frame[data-loaded='false'] > img {
+        opacity: 0;
+    }
+
+    /* Hover perspective for media on devices with a fine pointer. */
+    @media (hover: hover) and (pointer: fine) {
+        .media-tilt {
+            transition: transform var(--duration-slow) var(--ease-emphasized);
+            transform: perspective(1400px) rotateX(0deg) rotateY(0deg);
+        }
+
+        .group:hover .media-tilt,
+        .group:focus-visible .media-tilt {
+            transform: perspective(1400px) rotateX(1.2deg) rotateY(-1.6deg)
+                scale(1.012);
+        }
+    }
+
+    /* Scroll-linked shift written by useScrollShift (CSS var --shift). */
+    .scroll-shift {
+        transform: translate3d(0, calc(var(--shift, 0) * 1px), 0);
+        will-change: transform;
+    }
+
+    .pointer-shift {
+        transform: translate3d(
+            calc(var(--pointer-x, 0) * 1px),
+            calc(var(--pointer-y, 0) * 1px),
+            0
+        );
+        transition: transform var(--duration-slow) var(--ease-standard);
+    }
+
+    /* Visually hidden but available to assistive technology. */
+    .sr-only-focusable:not(:focus):not(:focus-within) {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    /* Native select with a drawn chevron. */
+    .select-native {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5l5-5' stroke='%235b6663' stroke-width='1.4'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.85rem center;
+        padding-right: 2.5rem;
+    }
+}
+
+@media print {
+    body {
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 11pt;
+    }
+
+    .print-hidden,
+    header[data-site-header],
+    footer[data-site-footer],
+    nav[aria-label='Breadcrumb'] {
+        display: none !important;
+    }
+
+    a[href^='http']::after {
+        content: ' (' attr(href) ')';
+        font-size: 0.85em;
+    }
+
+    h2,
+    h3 {
+        break-after: avoid;
+    }
+
+    section {
+        break-inside: avoid-page;
+    }
+}
+
+/* Extends an element from its column to the right edge of the viewport (lg+). */
+@utility bleed-right {
+    @media (width >= 64rem) {
+        margin-right: calc(
+            -1 *
+                (var(--gutter) +
+                    max(
+                        0px,
+                        (100vw - var(--container-page) - var(--gutter) * 2) / 2
+                    ))
+        );
+    }
+}
+
+/* Full width on small screens, where the frame gutter would otherwise show. */
+@utility bleed-mobile {
+    @media (width < 64rem) {
+        margin-inline: calc(-1 * var(--gutter));
+    }
+}
+
+/*
+ * Catalogue grid divided by hairlines (no boxes): rules between rows and
+ * between columns, with outer edges left open. 1 → 2 → 3 columns.
+ */
+@utility ruled-grid {
+    display: grid;
+    border-top: 1px solid var(--color-line);
+
+    & > * {
+        border-bottom: 1px solid var(--color-line);
+    }
+
+    @media (width >= 48rem) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        & > * {
+            padding-inline: 1.5rem;
+        }
+        & > :nth-child(2n + 1) {
+            padding-left: 0;
+        }
+        & > :nth-child(2n) {
+            padding-right: 0;
+            border-left: 1px solid var(--color-line);
+        }
+    }
+
+    @media (width >= 80rem) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+        & > :nth-child(n) {
+            padding-inline: 2rem;
+            border-left: 1px solid var(--color-line);
+        }
+        & > :nth-child(3n + 1) {
+            padding-left: 0;
+            border-left: 0;
+        }
+        & > :nth-child(3n) {
+            padding-right: 0;
+        }
+    }
+}

@@ -1,0 +1,221 @@
+/*
+ * Motion system. Durations and easing come from tokens; JavaScript only
+ * toggles data attributes. Content is visible by default: elements are only
+ * hidden once JavaScript has confirmed they are below the fold.
+ */
+
+@keyframes folio-page-enter {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+}
+
+@keyframes folio-fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes folio-fade-out {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes folio-sheet-in {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes folio-sheet-out {
+    to {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes folio-mask-up {
+    from {
+        clip-path: inset(100% 0 0 0);
+    }
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+@keyframes folio-media-settle {
+    from {
+        transform: scale(1.06);
+    }
+}
+
+@keyframes folio-word-rise {
+    from {
+        opacity: 0;
+        transform: translateY(0.35em);
+    }
+}
+
+@keyframes folio-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes folio-pulse {
+    50% {
+        opacity: 0.55;
+    }
+}
+
+@keyframes folio-progress {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(0.9);
+    }
+}
+
+@layer components {
+    .motion-page-enter {
+        animation: folio-page-enter var(--duration-slow) var(--ease-standard)
+            both;
+    }
+
+    /* Scroll reveal: fade and rise. */
+    [data-reveal='hidden'] {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    [data-reveal='shown'] {
+        opacity: 1;
+        transform: none;
+        transition:
+            opacity var(--duration-slow) var(--ease-standard),
+            transform var(--duration-slow) var(--ease-emphasized);
+        transition-delay: var(--reveal-delay, 0ms);
+    }
+
+    /* Masked media reveal: the image wipes up from its bottom edge. */
+    [data-reveal-mask='hidden'] {
+        clip-path: inset(100% 0 0 0);
+    }
+
+    [data-reveal-mask='shown'] {
+        clip-path: inset(0 0 0 0);
+        transition: clip-path var(--duration-reveal) var(--ease-emphasized);
+    }
+
+    [data-reveal-mask='shown'] .reveal-mask-media {
+        animation: folio-media-settle calc(var(--duration-reveal) * 1.6)
+            var(--ease-emphasized) both;
+    }
+
+    /* Section tone shift: the background arrives as the section enters. */
+    [data-tone] {
+        transition: background-color var(--duration-reveal) var(--ease-standard);
+    }
+
+    [data-tone='hidden'] {
+        background-color: transparent !important;
+    }
+
+    /* Headline word stagger (hero only). */
+    .motion-words .motion-word {
+        display: inline-block;
+        animation: folio-word-rise var(--duration-slow) var(--ease-emphasized)
+            both;
+        animation-delay: calc(var(--word-index, 0) * 38ms + 80ms);
+    }
+
+    .motion-load-mask {
+        animation: folio-mask-up var(--duration-reveal) var(--ease-emphasized)
+            120ms both;
+    }
+
+    .motion-load-mask .reveal-mask-media {
+        animation: folio-media-settle calc(var(--duration-reveal) * 1.8)
+            var(--ease-emphasized) 120ms both;
+    }
+
+    .motion-fade-in {
+        animation: folio-fade-in var(--duration-slow) var(--ease-standard)
+            var(--fade-delay, 0ms) both;
+    }
+
+    /* Dialog and sheet transitions (Radix sets data-state). */
+    .motion-overlay[data-state='open'] {
+        animation: folio-fade-in var(--duration-normal) var(--ease-standard);
+    }
+
+    .motion-overlay[data-state='closed'] {
+        animation: folio-fade-out var(--duration-fast) var(--ease-exit);
+    }
+
+    .motion-sheet[data-state='open'] {
+        animation: folio-sheet-in var(--duration-normal) var(--ease-emphasized);
+    }
+
+    .motion-sheet[data-state='closed'] {
+        animation: folio-sheet-out var(--duration-fast) var(--ease-exit);
+    }
+
+    .motion-spin {
+        animation: folio-spin 0.9s linear infinite;
+    }
+
+    .motion-pulse {
+        animation: folio-pulse 1.8s var(--ease-standard) infinite;
+    }
+
+    .motion-progress {
+        transform-origin: left;
+        animation: folio-progress 8s cubic-bezier(0.1, 0.6, 0.2, 1) forwards;
+    }
+}
+
+/* Respect the OS setting and the site-wide switch (data-motion="off"). */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        animation-duration: 1ms !important;
+        animation-delay: 0ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+        transition-delay: 0ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* A spinner is feedback, not decoration: slow it instead of freezing it. */
+    .motion-spin {
+        animation-duration: 2.4s !important;
+        animation-iteration-count: infinite !important;
+    }
+}
+
+[data-motion='off'] *,
+[data-motion='off'] ::before,
+[data-motion='off'] ::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+}
+
+[data-motion='off'] .motion-spin {
+    animation-duration: 2.4s !important;
+    animation-iteration-count: infinite !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html:not([data-motion='off']) {
+        scroll-behavior: smooth;
+    }
+}

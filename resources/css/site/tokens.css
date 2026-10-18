@@ -1,0 +1,183 @@
+/*
+ * FolioGoods — design tokens (public site).
+ *
+ * Change the look of the whole site here. Components only read semantic
+ * tokens (--color-canvas, --color-ink …); the palette below feeds them.
+ * Theme presets override semantic tokens via <html data-theme="…">, which is
+ * set from config/folio.php (FOLIO_THEME).
+ *
+ * Tailwind utilities are generated from @theme: bg-canvas, text-ink,
+ * border-line, font-display, ease-standard, duration-normal …
+ */
+
+@theme static {
+    /* Reset Tailwind's default palette so only tokens can be used. */
+    --color-*: initial;
+
+    /* Palette: Porcelain, Paper, Ink, Mineral teal, Oxide, Mist, Graphite. */
+    --color-palette-porcelain: #f3f0e8;
+    --color-palette-paper: #fcfbf7;
+    --color-palette-ink: #15211f;
+    --color-palette-teal: #1f6f65;
+    --color-palette-oxide: #c6603e;
+    --color-palette-mist: #dce7e3;
+    --color-palette-graphite: #66716e;
+
+    /* Semantic colours — the only colours components use. */
+    --color-canvas: var(--color-palette-porcelain);
+    --color-surface: var(--color-palette-paper);
+    --color-surface-muted: var(--color-palette-mist);
+    --color-ink: var(--color-palette-ink);
+    /* Text on an ink-filled surface (primary buttons). */
+    --color-on-ink: var(--color-palette-porcelain);
+    /* Graphite deepened slightly so small text passes WCAG AA on canvas and mist. */
+    --color-muted: #5b6663;
+    --color-accent: var(--color-palette-teal);
+    --color-accent-ink: #185a52;
+    --color-on-accent: var(--color-palette-paper);
+    /* Oxide: markers, large type and rules. Use accent-secondary-ink for small text. */
+    --color-accent-secondary: var(--color-palette-oxide);
+    --color-accent-secondary-ink: #a3492a;
+    --color-line: rgb(21 33 31 / 0.14);
+    --color-line-strong: #7c8582;
+    --color-success: #2e6b45;
+    --color-warning: #8a5a12;
+    --color-danger: #a63a2a;
+    --color-focus: var(--color-palette-teal);
+    --color-scrim: rgb(21 33 31 / 0.38);
+    --color-media: #e6e1d6;
+
+    /* Inverse surfaces (dark closing sections). */
+    --color-inverse-canvas: var(--color-palette-ink);
+    --color-inverse-ink: #f3f0e8;
+    --color-inverse-muted: #a9b3af;
+    --color-inverse-line: rgb(243 240 232 / 0.18);
+    --color-inverse-focus: #8cc9be;
+
+    /* Type families. Both are self-hosted at build time (see vite.config.ts). */
+    --font-*: initial;
+    --font-sans:
+        var(--folio-font-sans, 'Hanken Grotesk'), ui-sans-serif, system-ui,
+        -apple-system, 'Segoe UI', sans-serif;
+    --font-display:
+        var(--folio-font-display, 'Newsreader'), ui-serif, Georgia, Cambria,
+        'Times New Roman', serif;
+    /* System monospace for file trees only; no extra font download. */
+    --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+    /* Fluid type scale. */
+    --text-*: initial;
+    --text-2xs: 0.6875rem;
+    --text-2xs--line-height: 1.4;
+    --text-xs: 0.75rem;
+    --text-xs--line-height: 1.5;
+    --text-sm: 0.875rem;
+    --text-sm--line-height: 1.55;
+    --text-base: clamp(1rem, 0.97rem + 0.12vw, 1.0625rem);
+    --text-base--line-height: 1.65;
+    --text-lg: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+    --text-lg--line-height: 1.55;
+    --text-xl: clamp(1.25rem, 1.12rem + 0.55vw, 1.5rem);
+    --text-xl--line-height: 1.4;
+    --text-2xl: clamp(1.5rem, 1.28rem + 0.95vw, 2rem);
+    --text-2xl--line-height: 1.22;
+    --text-3xl: clamp(1.875rem, 1.45rem + 1.8vw, 2.875rem);
+    --text-3xl--line-height: 1.1;
+    --text-4xl: clamp(2.25rem, 1.6rem + 2.8vw, 3.875rem);
+    --text-4xl--line-height: 1.04;
+    --text-display: clamp(2.5rem, 1.45rem + 4.6vw, 5.75rem);
+    --text-display--line-height: 1;
+
+    --tracking-meta: 0.08em;
+    --tracking-tight: -0.015em;
+    --tracking-display: -0.022em;
+
+    /* Radius: nearly square by design. */
+    --radius-*: initial;
+    --radius-xs: 2px;
+    --radius-sm: 4px;
+    --radius-full: 9999px;
+
+    /* Shadow: one soft directional shadow for lifted media, nothing else. */
+    --shadow-*: initial;
+    --shadow-directional:
+        14px 22px 40px -26px rgb(21 33 31 / 0.38),
+        2px 3px 8px -4px rgb(21 33 31 / 0.18);
+    --shadow-sheet: 0 18px 48px -24px rgb(21 33 31 / 0.4);
+
+    /* Motion. */
+    --ease-*: initial;
+    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --ease-emphasized: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+    --animate-*: initial;
+
+    /* Containers. */
+    --container-page: 90rem;
+    --container-prose: 40rem;
+    --container-measure: 34rem;
+}
+
+:root {
+    /* Spacing tokens for hand-written CSS (Tailwind uses the 0.25rem scale). */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-24: 6rem;
+    --space-section: clamp(4.5rem, 3rem + 6vw, 9rem);
+
+    --gutter: clamp(1rem, 0.55rem + 2.2vw, 3rem);
+    --header-height: 4.25rem;
+
+    --duration-fast: 160ms;
+    --duration-normal: 260ms;
+    --duration-slow: 480ms;
+    --duration-reveal: 640ms;
+
+    --z-header: 40;
+    --z-overlay: 50;
+    --z-dialog: 60;
+    --z-progress: 70;
+    --z-skip: 80;
+
+    --border-hairline: 1px;
+
+    color-scheme: light;
+}
+
+/* Optional dark preset. Enable with FOLIO_THEME=nocturne. */
+[data-theme='nocturne'] {
+    --color-canvas: #121a19;
+    --color-surface: #182220;
+    --color-surface-muted: #1f2c2a;
+    --color-ink: #ece8df;
+    --color-on-ink: #121a19;
+    --color-muted: #a3ada9;
+    --color-accent: #6fbfb1;
+    --color-accent-ink: #8fd0c4;
+    --color-on-accent: #0e1514;
+    --color-accent-secondary: #e08a68;
+    --color-accent-secondary-ink: #eba086;
+    --color-line: rgb(236 232 223 / 0.14);
+    --color-line-strong: #6e7a76;
+    --color-success: #7cc48f;
+    --color-warning: #e3b35e;
+    --color-danger: #f08b7a;
+    --color-focus: #8fd0c4;
+    --color-scrim: rgb(0 0 0 / 0.55);
+    --color-media: #1c2523;
+    --color-inverse-canvas: #ece8df;
+    --color-inverse-ink: #121a19;
+    --color-inverse-muted: #4f5b58;
+    --color-inverse-line: rgb(18 26 25 / 0.18);
+    --color-inverse-focus: #1f6f65;
+    --shadow-directional:
+        14px 22px 40px -26px rgb(0 0 0 / 0.7), 2px 3px 8px -4px rgb(0 0 0 / 0.5);
+
+    color-scheme: dark;
+}

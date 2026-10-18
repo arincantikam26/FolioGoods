@@ -1,0 +1,191 @@
+/* Base document styles and the editorial type system. */
+
+@layer base {
+    *,
+    ::before,
+    ::after {
+        border-color: var(--color-line);
+    }
+
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+        scroll-padding-top: calc(var(--header-height) + var(--space-4));
+        overflow-x: clip;
+    }
+
+    body {
+        min-height: 100dvh;
+        background-color: var(--color-canvas);
+        /* Subtle paper grain: a tiny inline SVG noise tile, rendered once. */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .13 0 0 0 0 .12 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        color: var(--color-ink);
+        font-family: var(--font-sans);
+        font-size: var(--text-base);
+        line-height: var(--text-base--line-height);
+        font-kerning: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        text-wrap: balance;
+        overflow-wrap: break-word;
+    }
+
+    p,
+    li,
+    dd,
+    figcaption {
+        text-wrap: pretty;
+        overflow-wrap: break-word;
+    }
+
+    ::selection {
+        background-color: var(--color-surface-muted);
+        color: var(--color-ink);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-focus);
+        outline-offset: 3px;
+    }
+
+    .tone-inverse :focus-visible {
+        outline-color: var(--color-inverse-focus);
+    }
+
+    img,
+    svg,
+    video {
+        display: block;
+        max-width: 100%;
+    }
+
+    [hidden] {
+        display: none !important;
+    }
+}
+
+@layer components {
+    /* Editorial display face — reserved for headings that set the tone. */
+    .type-display {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: var(--text-display);
+        line-height: var(--text-display--line-height);
+        letter-spacing: var(--tracking-display);
+        font-optical-sizing: auto;
+    }
+
+    .type-headline {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: var(--text-4xl);
+        line-height: var(--text-4xl--line-height);
+        letter-spacing: var(--tracking-display);
+    }
+
+    .type-title {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: var(--text-3xl);
+        line-height: var(--text-3xl--line-height);
+        letter-spacing: var(--tracking-tight);
+    }
+
+    .type-subtitle {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: var(--text-2xl);
+        line-height: var(--text-2xl--line-height);
+        letter-spacing: var(--tracking-tight);
+    }
+
+    /* Small uppercase labels: section labels, metadata keys, indices. */
+    .type-meta {
+        font-family: var(--font-sans);
+        font-size: var(--text-xs);
+        line-height: var(--text-xs--line-height);
+        font-weight: 500;
+        letter-spacing: var(--tracking-meta);
+        text-transform: uppercase;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .type-index {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-variant-numeric: tabular-nums lining-nums;
+        letter-spacing: 0;
+    }
+
+    .type-lede {
+        font-size: var(--text-lg);
+        line-height: var(--text-lg--line-height);
+        max-width: var(--container-measure);
+    }
+
+    /* Long-form reading column. */
+    .prose-editorial {
+        max-width: var(--container-prose);
+    }
+
+    .prose-editorial > * + * {
+        margin-top: 1.1em;
+    }
+
+    .prose-editorial h2,
+    .prose-editorial h3 {
+        margin-top: 2em;
+    }
+
+    .prose-editorial h3 {
+        font-family: var(--font-sans);
+        font-size: var(--text-lg);
+        font-weight: 600;
+        letter-spacing: 0;
+    }
+
+    .prose-editorial ul,
+    .prose-editorial ol {
+        padding-left: 1.2em;
+    }
+
+    .prose-editorial ul {
+        list-style: none;
+    }
+
+    .prose-editorial ul > li {
+        position: relative;
+    }
+
+    .prose-editorial ul > li::before {
+        content: '';
+        position: absolute;
+        left: -1.1em;
+        top: 0.8em;
+        width: 0.5em;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.6;
+    }
+
+    .prose-editorial ol {
+        list-style: decimal-leading-zero;
+    }
+
+    .prose-editorial li + li {
+        margin-top: 0.4em;
+    }
+
+    .prose-editorial a {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.22em;
+    }
+}
