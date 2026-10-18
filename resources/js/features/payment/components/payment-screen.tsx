@@ -34,8 +34,10 @@ export function PaymentScreen({
     }
 
     return (
-        <div className="frame editorial-grid gap-y-12 py-12 lg:py-16">
-            <div className="grid content-start gap-10 lg:col-span-7">
+        <div className="frame editorial-grid gap-y-12 py-12 lg:grid-rows-[auto_1fr] lg:gap-y-10 lg:py-16">
+            {/* Status first; on small screens the transfer details follow
+                before the upload, matching the order the visitor acts in. */}
+            <div className="grid content-start gap-10 lg:col-span-7 lg:row-start-1">
                 <StatusHeading
                     icon={meta.icon}
                     tone={meta.tone}
@@ -55,7 +57,34 @@ export function PaymentScreen({
                         {order.rejectionReason}
                     </StatusNotice>
                 )}
+            </div>
 
+            <aside className="lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1">
+                {status === 'expired' ? (
+                    <dl className="border-ink grid gap-3 border-t-2 pt-6 text-sm">
+                        <div className="flex justify-between gap-4">
+                            <dt className="text-muted">
+                                {copy.payment.orderNumber}
+                            </dt>
+                            <dd className="tabular-nums">{order.number}</dd>
+                        </div>
+                        <div className="flex justify-between gap-4">
+                            <dt className="text-muted">
+                                {copy.orders.product}
+                            </dt>
+                            <dd>{order.productName}</dd>
+                        </div>
+                    </dl>
+                ) : (
+                    <TransferDetails
+                        orderNumber={order.number}
+                        total={order.total}
+                        payBefore={order.payBefore}
+                    />
+                )}
+            </aside>
+
+            <div className="grid content-start gap-10 lg:col-span-7 lg:row-start-2">
                 {canUpload && (
                     <ProofUpload
                         onSubmitted={() => setStatus('proof_uploaded')}
@@ -92,31 +121,6 @@ export function PaymentScreen({
                     </TextLink>
                 </p>
             </div>
-
-            <aside className="lg:col-span-5 lg:col-start-8">
-                {status === 'expired' ? (
-                    <dl className="border-ink grid gap-3 border-t-2 pt-6 text-sm">
-                        <div className="flex justify-between gap-4">
-                            <dt className="text-muted">
-                                {copy.payment.orderNumber}
-                            </dt>
-                            <dd className="tabular-nums">{order.number}</dd>
-                        </div>
-                        <div className="flex justify-between gap-4">
-                            <dt className="text-muted">
-                                {copy.orders.product}
-                            </dt>
-                            <dd>{order.productName}</dd>
-                        </div>
-                    </dl>
-                ) : (
-                    <TransferDetails
-                        orderNumber={order.number}
-                        total={order.total}
-                        payBefore={order.payBefore}
-                    />
-                )}
-            </aside>
         </div>
     );
 }

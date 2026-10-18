@@ -1,6 +1,7 @@
 import { routes } from '@/app/routing/routes';
 import { Media } from '@/components/media/media';
 import { MaskReveal } from '@/components/motion/reveal';
+import { DownloadLink } from '@/components/primitives/download-link';
 import { TextLink } from '@/components/primitives/text-link';
 import { SectionLabel } from '@/components/typography/section-label';
 import type { Profile } from '@/features/profile/data/profile';
@@ -87,14 +88,23 @@ export function AboutPreview({
                         </div>
                     </div>
 
-                    <TextLink
-                        href={routes.about()}
-                        arrow
-                        prefetch
-                        className="w-fit"
-                    >
-                        {cta}
-                    </TextLink>
+                    <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
+                        <TextLink
+                            href={routes.about()}
+                            arrow
+                            prefetch
+                            className="w-fit"
+                        >
+                            {cta}
+                        </TextLink>
+                        {profile.cv && (
+                            <DownloadLink
+                                href={profile.cv.href}
+                                label={profile.cv.label}
+                                detail={profile.cv.size}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
         </section>

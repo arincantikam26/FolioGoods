@@ -77,12 +77,6 @@ export function PublicFooter() {
                         </li>
                     ))}
                 </ul>
-                <a
-                    href="#top"
-                    className="hover:text-ink inline-flex min-h-9 items-center"
-                >
-                    {copy.common.backToTop}
-                </a>
             </div>
         </footer>
     );

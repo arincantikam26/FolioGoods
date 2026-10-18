@@ -4,6 +4,7 @@ import { AppLink } from '@/app/routing/app-link';
 import { routes } from '@/app/routing/routes';
 import { Media } from '@/components/media/media';
 import { ButtonLink } from '@/components/primitives/button';
+import { DownloadLink } from '@/components/primitives/download-link';
 import { TextLink } from '@/components/primitives/text-link';
 import { StaggeredWords } from '@/components/typography/emphasis-text';
 import type { Project } from '@/features/portfolio/types';
@@ -22,6 +23,8 @@ type HomeHeroProps = {
     project: Project;
     categoryLabel: string;
     meta: { label: string; value: string; live?: boolean }[];
+    /** Low-priority action shown beside the metadata, e.g. a CV download. */
+    supportLink?: { label: string; href: string; detail?: string } | null;
 };
 
 /**
@@ -39,6 +42,7 @@ export function HomeHero({
     project,
     categoryLabel,
     meta,
+    supportLink = null,
 }: HomeHeroProps) {
     const area = useRef<HTMLElement>(null);
     const pointerTarget = useRef<HTMLDivElement>(null);
@@ -55,7 +59,7 @@ export function HomeHero({
         <section
             ref={area}
             aria-labelledby="hero-title"
-            className="relative pt-4 pb-14 lg:pt-8 lg:pb-20"
+            className="relative pt-4 pb-12 lg:pt-8 lg:pb-16"
         >
             <div className="frame editorial-grid gap-y-8 lg:grid-rows-[auto_auto_auto_1fr] lg:gap-y-0">
                 {/* Eyebrow and directional rule toward the work. */}
@@ -87,7 +91,7 @@ export function HomeHero({
 
                 <h1
                     id="hero-title"
-                    className="type-display motion-words relative z-[2] max-w-[15ch] pt-6 lg:col-span-8 lg:col-start-1 lg:row-start-2 lg:pt-14 lg:pb-10"
+                    className="type-display motion-words relative z-[2] max-w-[17ch] pt-4 lg:col-span-7 lg:col-start-1 lg:row-start-2 lg:pt-12 lg:pb-8"
                 >
                     <StaggeredWords text={headline} />
                 </h1>
@@ -105,16 +109,16 @@ export function HomeHero({
                         )}
                     </div>
                 </div>
-                <figure className="relative mt-4 lg:col-span-6 lg:col-start-6 lg:row-span-3 lg:row-start-2 lg:mt-36">
+                <figure className="relative mt-2 lg:col-span-6 lg:col-start-7 lg:row-span-3 lg:row-start-2 lg:mt-14">
                     <div ref={mediaLayer} className="scroll-shift">
                         <div ref={pointerTarget} className="pointer-shift">
                             <div className="motion-load-mask -mx-(--gutter) sm:mx-0">
                                 <Media
                                     asset={project.cover}
                                     priority
-                                    ratio="4 / 5"
+                                    ratio="4 / 3"
                                     sizes="(min-width: 64rem) 46vw, 100vw"
-                                    className="max-h-[78svh] w-full lg:max-h-none"
+                                    className="w-full"
                                 />
                             </div>
                         </div>
@@ -145,27 +149,36 @@ export function HomeHero({
                 </figure>
             </div>
 
-            <div className="frame mt-14 lg:mt-20">
-                <dl className="border-line grid gap-x-(--gutter) gap-y-4 border-t pt-5 sm:grid-cols-3">
-                    {meta.map((item) => (
-                        <div key={item.label} className="grid gap-1">
-                            <dt className="type-meta text-muted">
-                                {item.label}
-                            </dt>
-                            <dd className="flex items-center gap-2 text-sm">
-                                {item.live && (
-                                    <span
-                                        aria-hidden
-                                        className="relative flex size-2"
-                                    >
-                                        <span className="bg-success size-2 rounded-full" />
-                                    </span>
-                                )}
-                                {item.value}
-                            </dd>
-                        </div>
-                    ))}
-                </dl>
+            <div className="frame mt-12 lg:mt-14">
+                <div className="border-line flex flex-wrap items-end justify-between gap-x-(--gutter) gap-y-5 border-t pt-5">
+                    <dl className="grid flex-1 gap-x-(--gutter) gap-y-4 sm:grid-cols-3">
+                        {meta.map((item) => (
+                            <div key={item.label} className="grid gap-1">
+                                <dt className="type-meta text-muted">
+                                    {item.label}
+                                </dt>
+                                <dd className="flex items-center gap-2 text-sm">
+                                    {item.live && (
+                                        <span
+                                            aria-hidden
+                                            className="relative flex size-2"
+                                        >
+                                            <span className="bg-success size-2 rounded-full" />
+                                        </span>
+                                    )}
+                                    {item.value}
+                                </dd>
+                            </div>
+                        ))}
+                    </dl>
+                    {supportLink && (
+                        <DownloadLink
+                            href={supportLink.href}
+                            label={supportLink.label}
+                            detail={supportLink.detail}
+                        />
+                    )}
+                </div>
             </div>
         </section>
     );

@@ -68,31 +68,22 @@ export default function HomePage() {
                             live: site.availability.open,
                         },
                     ]}
+                    supportLink={
+                        profile.cv
+                            ? {
+                                  label: profile.cv.label,
+                                  href: profile.cv.href,
+                                  detail: profile.cv.size,
+                              }
+                            : null
+                    }
                 />
             )}
             <HeaderSentinel />
 
-            <SelectedWork
-                index="02"
-                label={text.work.label}
-                heading={text.work.heading}
-                cta={text.work.cta}
-                rowCta={text.work.rowCta}
-                projects={selected}
-                categoryLabel={projectCategory}
-            />
-
-            <ProjectStatement
-                index="03"
-                label={text.statement.label}
-                heading={text.statement.heading}
-                body={text.statement.body}
-                capabilities={text.statement.capabilities}
-            />
-
             {commerce && (
                 <ShopPreview
-                    index="04"
+                    index="02"
                     label={text.shop.label}
                     heading={text.shop.heading}
                     cta={text.shop.cta}
@@ -102,6 +93,24 @@ export default function HomePage() {
                     categoryLabel={productCategory}
                 />
             )}
+
+            <SelectedWork
+                index={commerce ? '03' : '02'}
+                label={text.work.label}
+                heading={text.work.heading}
+                cta={text.work.cta}
+                rowCta={text.work.rowCta}
+                projects={selected}
+                categoryLabel={projectCategory}
+            />
+
+            <ProjectStatement
+                index={commerce ? '04' : '03'}
+                label={text.statement.label}
+                heading={text.statement.heading}
+                body={text.statement.body}
+                capabilities={text.statement.capabilities}
+            />
 
             <div className="frame">
                 <hr className="border-line" />

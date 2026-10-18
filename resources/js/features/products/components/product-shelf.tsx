@@ -27,11 +27,11 @@ export function ProductShelf({
     const crops = ['50% 50%', '30% 40%', '70% 60%'];
 
     return (
-        <ol className="border-line grid border-t md:grid-cols-3">
+        <ol className="border-line grid border-t md:grid-cols-3 md:gap-x-12 lg:gap-x-16">
             {products.map((product, index) => (
                 <li
                     key={product.slug}
-                    className="border-line border-b md:border-b-0 md:border-l md:px-6 md:first:border-l-0 md:first:pl-0 md:last:pr-0 lg:px-8"
+                    className="border-line md:not-first:before:bg-line relative border-b md:border-b-0 md:not-first:before:absolute md:not-first:before:inset-y-0 md:not-first:before:-left-6 md:not-first:before:w-px md:not-first:before:content-[''] lg:not-first:before:-left-8"
                 >
                     <Reveal delay={index * 80} className="h-full">
                         <AppLink

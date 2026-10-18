@@ -2,6 +2,7 @@ import { AppLink } from '@/app/routing/app-link';
 import { routes } from '@/app/routing/routes';
 import { Media } from '@/components/media/media';
 import type { Project } from '@/features/portfolio/types';
+import { projectRole } from '@/features/portfolio/utils/project-facts';
 
 type ProjectRowProps = {
     project: Project;
@@ -14,6 +15,8 @@ type ProjectRowProps = {
  * on devices with a fine pointer it lifts slightly on hover.
  */
 export function ProjectRow({ project, index, categoryLabel }: ProjectRowProps) {
+    const role = projectRole(project);
+
     return (
         <li className="border-line border-t">
             <AppLink
@@ -42,12 +45,17 @@ export function ProjectRow({ project, index, categoryLabel }: ProjectRowProps) {
                     <p className="line-clamp-2 text-sm text-muted lg:line-clamp-none">
                         {project.summary}
                     </p>
+                    {project.mediums.length > 0 && (
+                        <p className="hidden text-xs text-muted sm:block">
+                            {project.mediums.join(' / ')}
+                        </p>
+                    )}
                 </div>
 
                 <p className="col-start-2 text-sm text-muted sm:col-start-3 lg:col-start-auto">
                     <span className="lg:block">{categoryLabel}</span>
                     <span className="lg:hidden"> · {project.year}</span>
-                    <span className="hidden lg:block">{project.context}</span>
+                    {role && <span className="hidden lg:block">{role}</span>}
                 </p>
 
                 <p className="hidden text-sm tabular-nums lg:block">

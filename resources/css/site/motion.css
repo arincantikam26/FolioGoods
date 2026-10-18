@@ -59,15 +59,15 @@
     }
 }
 
-@keyframes folio-spin {
+@keyframes folio-media-sheen {
     to {
-        transform: rotate(360deg);
+        transform: translateX(100%);
     }
 }
 
-@keyframes folio-pulse {
-    50% {
-        opacity: 0.55;
+@keyframes folio-spin {
+    to {
+        transform: rotate(360deg);
     }
 }
 
@@ -81,9 +81,12 @@
 }
 
 @layer components {
+    /* "backwards", not "both": a transform left on <main> after the
+       animation would make it the containing block for fixed children
+       (the mobile purchase bar) and pin them to the bottom of the page. */
     .motion-page-enter {
         animation: folio-page-enter var(--duration-slow) var(--ease-standard)
-            both;
+            backwards;
     }
 
     /* Scroll reveal: fade and rise. */
@@ -167,10 +170,6 @@
 
     .motion-spin {
         animation: folio-spin 0.9s linear infinite;
-    }
-
-    .motion-pulse {
-        animation: folio-pulse 1.8s var(--ease-standard) infinite;
     }
 
     .motion-progress {

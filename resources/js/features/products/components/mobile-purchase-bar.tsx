@@ -59,6 +59,21 @@ export function MobilePurchaseBar({
 
     const visible = passed && !nearEnd;
 
+    // Lets other fixed controls (scroll-to-top) move above the bar.
+    useEffect(() => {
+        const root = document.documentElement;
+
+        if (visible) {
+            root.dataset.bottomBar = 'on';
+        } else {
+            delete root.dataset.bottomBar;
+        }
+
+        return () => {
+            delete root.dataset.bottomBar;
+        };
+    }, [visible]);
+
     return (
         <div
             aria-hidden={!visible}

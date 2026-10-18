@@ -3,6 +3,7 @@ import { routes } from '@/app/routing/routes';
 import { Media } from '@/components/media/media';
 import { MaskReveal } from '@/components/motion/reveal';
 import { Accordion } from '@/components/interaction/accordion';
+import { ButtonLink } from '@/components/primitives/button';
 import { TextLink } from '@/components/primitives/text-link';
 import { Paragraphs } from '@/components/typography/paragraphs';
 import { copy } from '@/content/copy';
@@ -15,7 +16,7 @@ import type {
     SourceNode,
     SupportScope,
 } from '@/features/products/types';
-import { formatDate, formatMoney } from '@/lib/format';
+import { formatDate, formatMoney, indexLabel } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import type { FaqItem } from '@/types/site';
 
@@ -321,5 +322,95 @@ export function ProductFaq({ items }: { items: FaqItem[] }) {
                 content: <p>{faq.answer}</p>,
             }))}
         />
+    );
+}
+
+/** The three steps from checkout to download, stated before the visitor commits. */
+export function DeliverySteps() {
+    return (
+        <ol className="grid gap-0">
+            {copy.product.delivery.map((step, index) => (
+                <li
+                    key={step.title}
+                    className="border-line grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-3 border-b py-5 first:pt-0"
+                >
+                    <span
+                        aria-hidden
+                        className="type-index text-accent-secondary-ink text-lg"
+                    >
+                        {indexLabel(index)}
+                    </span>
+                    <div className="grid gap-1">
+                        <p className="font-medium">{step.title}</p>
+                        <p className="text-sm text-muted">{step.detail}</p>
+                    </div>
+                </li>
+            ))}
+        </ol>
+    );
+}
+
+type PurchaseClosingProps = {
+    name: string;
+    price: number;
+    licenseName: string | null;
+    href: string;
+    label: string;
+    previewHref: string | null;
+};
+
+/**
+ * Repeats the decision at the end of a long product page: name, price for
+ * the selected license and the one purchase action.
+ */
+export function PurchaseClosing({
+    name,
+    price,
+    licenseName,
+    href,
+    label,
+    previewHref,
+}: PurchaseClosingProps) {
+    return (
+        <section
+            aria-labelledby="purchase-closing-heading"
+            className="border-ink mb-16 grid gap-6 border-t-2 pt-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end sm:gap-x-(--gutter)"
+        >
+            <div className="grid gap-2">
+                <p className="type-meta text-muted">
+                    {copy.product.closing.label}
+                </p>
+                <h2 id="purchase-closing-heading" className="type-subtitle">
+                    {name}
+                </h2>
+                <p className="text-ink font-medium tabular-nums">
+                    {formatMoney(price)}
+                    {licenseName && (
+                        <span className="font-normal text-muted">
+                            {' '}
+                            · {copy.product.closing.license(licenseName)}
+                        </span>
+                    )}
+                </p>
+                <p className="max-w-[46ch] text-sm text-muted">
+                    {copy.product.closing.note}
+                </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                <ButtonLink href={href} variant="accent" size="lg" arrow>
+                    {label}
+                </ButtonLink>
+                {previewHref && (
+                    <TextLink
+                        href={previewHref}
+                        arrow
+                        newTab
+                        className="text-sm"
+                    >
+                        {copy.product.previewCta}
+                    </TextLink>
+                )}
+            </div>
+        </section>
     );
 }

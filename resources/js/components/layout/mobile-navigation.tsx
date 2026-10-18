@@ -26,7 +26,11 @@ export function MobileNavigation({
     currentUrl,
     className,
 }: MobileNavigationProps) {
-    const [open, setOpen] = useState(false);
+    // The menu is open "for" a URL, so any route change — a link, back or
+    // forward — closes it without an effect.
+    const [openFor, setOpenFor] = useState<string | null>(null);
+    const open = openFor === currentUrl;
+    const setOpen = (next: boolean) => setOpenFor(next ? currentUrl : null);
 
     return (
         <Dialog.Root open={open} onOpenChange={setOpen}>
